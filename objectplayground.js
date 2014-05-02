@@ -8,10 +8,160 @@
  * In this episode, we'll build it up from first principles.
  *
  * Source: http://www.objectplayground.com/
+ *
+ * TOC
+ * 1. Object Fundamentals #t=1:18
+ * 2. Functions & Methods #t=3:32
+ * 3. Prototypal Inheritance #t=5:46
+ * 4. Polymorphism & Method Overriding #t=9:13 
+ * 5. Classes & Instantiation #t=12:11
+ * 6. The Classical Model #t=16:07 
+ * 7. instanceof #t=21:09 
+ * 8. Future Directions #t=22:39 
+ * 9. The Definitive Guide #t=23:25 
+ * 10. Recommendations #t=24:56 
  */
 
 'use strict';
 
+
+// ! Intro
+// ====================================
+
+// The 'standard' way of OOP in JS
+function MyClass() {
+	//...
+}
+
+// The 'standard' recipe for inheritance
+function MySubClass() {
+	MyClass.call(this);
+}
+MySubClass.prototype = Object.create(MyClass.prototype);
+MySubClass.prototype.constructor = MySubClass;
+
+MySubClass.prototype.method = function () {
+	MyClass.prototype.method.call(this);
+	//...
+}
+
+// But why... 
+
+// ! 1. Object Fundamentals #t=1:18
+// ====================================
+
+// Primitive Types
+/*
+	Undefined
+	Null
+	Boolean
+	String
+	Number
+	Object
+*/
+
+// "Special Objects" - everything else you use in your programs
+/*
+	Function
+	Array
+	RegExp
+*/
+
+
+// Object is a set of key:value pairs. Akin to "dictionary" "hash" or "associative array" in other languages.
+// can contain all the Primitive Types, as well as other objects
+var myObject {
+	a: undefined,
+	b: null,
+	c: true,
+	d: 'foo',
+	e: 3.14159,
+	f: function bar() {/*...*/},
+	g: { h: 'baz'}
+};
+
+// Primitives are passed by value
+var number1, number2;
+
+number1 = 3.14159;
+number2 = number1;
+
+number2 = 42; // number1 is unaffected, remains unchanged
+
+// Objects are stored by reference
+var object1, object 2;
+
+object1 = {
+	a: 3.14159
+};
+
+object2 = object1; // not copying the object, copying the reference
+
+object2.a = 42; // object1.a will also be set to same value, b/c both variables point to the same object
+
+
+// ! 2. Functions & Methods #t=3:32
+// ====================================
+
+// Functions are objects
+// When you define a function, JS creates an object that has three Predefined properties: 
+// - name
+// - length, which is the number of arguments
+// - prototype
+//
+// You can do all the things you do to objects 
+// - assign properties, assign them to variables, and they are passed by reference
+//
+// 'this' keyword, refers to the object that called the function, not the function itself
+// - or use .call() or .apply() or .bind() which are methods available on the Function.prototype
+
+
+// ! 3. Prototypal Inheritance #t=5:46
+// ====================================
+
+// fundamental prototypal inheritance
+
+// Avoid repetition - extend using Object.create()
+// - define single object, and have other objects inherit or extend it
+
+var parent = {
+	get: function fn() {
+		return this.val;
+	},
+	val: 42
+};
+
+var child = Object.create(parent);
+child.val = 3.14159;
+
+var grandchild = Object.create(child); // extend child with another child
+
+parent.get(); // 42
+child.get(); // 'this' is set to child, so while goes up the prototype chain to parent to find the function, val is the property set on child... returns 3.14159
+
+
+// @TODO: pick up here: https://www.youtube.com/watch?v=PMfcsYzj-9M#t=552
+
+// ! 4. Polymorphism & Method Overriding #t=9:13 
+// ====================================
+
+// ! 5. Classes & Instantiation #t=12:11
+// ====================================
+
+// ! 6. The Classical Model #t=16:07 
+// ====================================
+
+// ! 7. instanceof #t=21:09 
+// ====================================
+
+// ! 8. Future Directions #t=22:39 
+// ====================================
+
+// ! 9. The Definitive Guide #t=23:25 
+// ====================================
+
+// ! 10. Recommendations #t=24:56 
+// ====================================
 
 // The constructor way of doing things...
 function Person() {
